@@ -13,6 +13,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+
 function Copyright(props) {
     return (
         <Typography
@@ -23,7 +26,7 @@ function Copyright(props) {
         >
             {'Copyright © '}
             <Link color="inherit" href="https://mui.com/">
-                Your Website
+                CSC 366
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -31,17 +34,31 @@ function Copyright(props) {
     );
 }
 
+const handleSubmit = () => {};
+
 const theme = createTheme();
 
 export const Login = () => {
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password')
-        });
-    };
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: ''
+        },
+        validationSchema: Yup.object({
+            email: Yup.string()
+                .email('Must be a valid email')
+                .min(5)
+                .max(255)
+                .required('Email is required'),
+            password: Yup.string()
+                .min(8)
+                .max(12)
+                .required('Password is required')
+        }),
+        onSubmit: () => {
+            handleSubmit();
+        }
+    });
 
     return (
         <ThemeProvider theme={theme}>
@@ -54,7 +71,7 @@ export const Login = () => {
                     md={7}
                     sx={{
                         backgroundImage:
-                            'url(https://source.unsplash.com/random)',
+                            'url(https://flevix.com/wp-content/uploads/2020/01/Web-Header-Background-1.svg)',
                         backgroundRepeat: 'no-repeat',
                         backgroundColor: (t) =>
                             t.palette.mode === 'light'
@@ -91,10 +108,19 @@ export const Login = () => {
                         <Box
                             component="form"
                             noValidate
-                            onSubmit={handleSubmit}
+                            onSubmit={formik.handleSubmit}
                             sx={{ mt: 1 }}
                         >
                             <TextField
+                                error={Boolean(
+                                    formik.touched.email && formik.errors.email
+                                )}
+                                helperText={
+                                    formik.touched.email && formik.errors.email
+                                }
+                                value={formik.values.email}
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
                                 margin="normal"
                                 required
                                 fullWidth
@@ -105,6 +131,17 @@ export const Login = () => {
                                 autoFocus
                             />
                             <TextField
+                                error={Boolean(
+                                    formik.touched.password &&
+                                        formik.errors.password
+                                )}
+                                helperText={
+                                    formik.touched.password &&
+                                    formik.errors.password
+                                }
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                value={formik.values.password}
                                 margin="normal"
                                 required
                                 fullWidth
@@ -124,6 +161,7 @@ export const Login = () => {
                                 label="Remember me"
                             />
                             <Button
+                                disabled={!(formik.isValid && formik.dirty)}
                                 type="submit"
                                 fullWidth
                                 variant="contained"
@@ -138,7 +176,7 @@ export const Login = () => {
                                     </Link>
                                 </Grid>
                                 <Grid item>
-                                    <Link href="#" variant="body2">
+                                    <Link href="/auth/signup" variant="body2">
                                         {"Don't have an account? Sign Up"}
                                     </Link>
                                 </Grid>

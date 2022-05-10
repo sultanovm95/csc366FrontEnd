@@ -13,6 +13,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+
 function Copyright(props) {
     return (
         <Typography
@@ -23,7 +26,7 @@ function Copyright(props) {
         >
             {'Copyright © '}
             <Link color="inherit" href="https://mui.com/">
-                Your Website
+                CSC 366
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -31,17 +34,41 @@ function Copyright(props) {
     );
 }
 
+const handleSubmit = () => {};
+
 const theme = createTheme();
 
 export const Signup = () => {
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password')
-        });
-    };
+    const formik = useFormik({
+        initialValues: {
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: ''
+        },
+        validationSchema: Yup.object({
+            firstName: Yup.string()
+                .matches(/^[A-Za-z ]*$/, 'Please enter valid name')
+                .max(40)
+                .required('First Name is required'),
+            lastName: Yup.string()
+                .matches(/^[A-Za-z ]*$/, 'Please enter valid name')
+                .max(40)
+                .required('Last Name is required'),
+            email: Yup.string()
+                .email('Must be a valid email')
+                .min(5)
+                .max(255)
+                .required('Email is required'),
+            password: Yup.string()
+                .min(8)
+                .max(12)
+                .required('Password is required')
+        }),
+        onSubmit: () => {
+            handleSubmit();
+        }
+    });
 
     return (
         <ThemeProvider theme={theme}>
@@ -70,6 +97,17 @@ export const Signup = () => {
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
+                                    error={Boolean(
+                                        formik.touched.firstName &&
+                                            formik.errors.firstName
+                                    )}
+                                    helperText={
+                                        formik.touched.firstName &&
+                                        formik.errors.firstName
+                                    }
+                                    value={formik.values.firstName}
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
                                     autoComplete="given-name"
                                     name="firstName"
                                     required
@@ -81,6 +119,17 @@ export const Signup = () => {
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
+                                    error={Boolean(
+                                        formik.touched.lastName &&
+                                            formik.errors.lastName
+                                    )}
+                                    helperText={
+                                        formik.touched.lastName &&
+                                        formik.errors.lastName
+                                    }
+                                    value={formik.values.lastName}
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
                                     required
                                     fullWidth
                                     id="lastName"
@@ -91,6 +140,17 @@ export const Signup = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
+                                    error={Boolean(
+                                        formik.touched.email &&
+                                            formik.errors.email
+                                    )}
+                                    helperText={
+                                        formik.touched.email &&
+                                        formik.errors.email
+                                    }
+                                    value={formik.values.email}
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
                                     required
                                     fullWidth
                                     id="email"
@@ -101,6 +161,17 @@ export const Signup = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
+                                    error={Boolean(
+                                        formik.touched.password &&
+                                            formik.errors.password
+                                    )}
+                                    helperText={
+                                        formik.touched.password &&
+                                        formik.errors.password
+                                    }
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
+                                    value={formik.values.password}
                                     required
                                     fullWidth
                                     name="password"
@@ -123,6 +194,7 @@ export const Signup = () => {
                             </Grid>
                         </Grid>
                         <Button
+                            disabled={!(formik.isValid && formik.dirty)}
                             type="submit"
                             fullWidth
                             variant="contained"
@@ -132,7 +204,7 @@ export const Signup = () => {
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link href="/auth/login" variant="body2">
                                     Already have an account? Sign in
                                 </Link>
                             </Grid>

@@ -11,7 +11,7 @@ const Item = styled(Grid)(({ theme }) => ({
     color: theme.palette.text.secondary
 }));
 
-export const App = () => {
+export const App = (props) => {
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -21,7 +21,7 @@ export const App = () => {
             </Grid>
             <Grid item xs={2} md={1} lg={1}>
                 <Item>
-                    <Sidebar />
+                    <Sidebar user={props.user} />
                 </Item>
             </Grid>
             <Grid item xs={10} md={11} lg={11}>

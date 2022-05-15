@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,6 +15,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+
+import axios from 'axios';
 
 function Copyright(props) {
     return (
@@ -34,11 +36,22 @@ function Copyright(props) {
     );
 }
 
-const handleSubmit = () => {};
+const makeLoginCall = async (user) => {
+    try {
+        const response = await axios.post(
+            'http://127.0.0.1:4001/users/login',
+            user
+        );
+        return response;
+    } catch (err) {
+        return err;
+    }
+};
 
 const theme = createTheme();
 
 export const Login = () => {
+    const [error, setError] = useState('');
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -55,8 +68,19 @@ export const Login = () => {
                 .max(12)
                 .required('Password is required')
         }),
-        onSubmit: () => {
-            handleSubmit();
+        onSubmit: (values) => {
+            console.log(values);
+            makeLoginCall(values).then((response) => {
+                const status = response.status;
+                const token = response.data.token;
+                console.log(response);
+                if (status === 200) {
+                    localStorage.setItem('token', JSON.stringify(token));
+                    window.location = '/';
+                } else {
+                    setError('Invalid email | Maybe taken');
+                }
+            });
         }
     });
 

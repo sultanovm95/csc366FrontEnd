@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { React, useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -11,13 +11,13 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
 import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
-import WhatshotOutlinedIcon from '@mui/icons-material/WhatshotOutlined';
-import TrendingUpOutlinedIcon from '@mui/icons-material/TrendingUpOutlined';
 
 import Avatar from '@mui/material/Avatar';
 import Badge from '@mui/material/Badge';
 
 import Divider from '@mui/material/Divider';
+
+import { getUser, makeLogoutCall } from '../../utils';
 
 import { Link } from 'react-router-dom';
 
@@ -66,7 +66,15 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 const Drawer = styled(MuiDrawer)(({ theme, open }) => ({}));
 
-export const Sidebar = () => {
+export const Sidebar = (props) => {
+    const [userId, setUserId] = useState(null);
+
+    useEffect(() => {
+        getUser().then((user) => {
+            setUserId(user._id);
+        });
+    }, []);
+
     return (
         <Box sx={{ flexGrow: 1 }} position="relative">
             <Drawer variant="permanent">
@@ -105,46 +113,58 @@ export const Sidebar = () => {
                     </ListItem>
                 </List>
                 <List style={bottomAlign}>
-                    <ListItem button>
-                        <Link to="/profile">
-                            <ListItemIcon>
-                                <StyledBadge
-                                    style={centerAlign}
-                                    overlap="circular"
-                                    anchorOrigin={{
-                                        vertical: 'bottom',
-                                        horizontal: 'right'
-                                    }}
-                                    variant="dot"
-                                >
-                                    <Avatar
-                                        alt="Remy Sharp"
-                                        src="https://mui.com/static/images/avatar/1.jpg"
+                    {userId ? (
+                        <ListItem button>
+                            <Link to="/profile">
+                                <ListItemIcon>
+                                    <StyledBadge
+                                        style={centerAlign}
+                                        overlap="circular"
+                                        anchorOrigin={{
+                                            vertical: 'bottom',
+                                            horizontal: 'right'
+                                        }}
+                                        variant="dot"
+                                    >
+                                        <Avatar
+                                            alt="Remy Sharp"
+                                            src="https://mui.com/static/images/avatar/1.jpg"
+                                        />
+                                    </StyledBadge>
+                                </ListItemIcon>
+                            </Link>
+                        </ListItem>
+                    ) : null}
+                    {userId ? (
+                        <ListItem
+                            button
+                            onClick={() => {
+                                makeLogoutCall();
+                                window.location.reload();
+                            }}
+                        >
+                            <Link to="/">
+                                <ListItemIcon>
+                                    <LogoutOutlinedIcon
+                                        color="secondary"
+                                        style={centerAlign}
                                     />
-                                </StyledBadge>
-                            </ListItemIcon>
-                        </Link>
-                    </ListItem>
-                    <ListItem button>
-                        <Link to="/auth/login">
-                            <ListItemIcon>
-                                <LogoutOutlinedIcon
-                                    color="secondary"
-                                    style={centerAlign}
-                                />
-                            </ListItemIcon>
-                        </Link>
-                    </ListItem>
-                    <ListItem button>
-                        <Link to="/auth/login">
-                            <ListItemIcon>
-                                <LoginIcon
-                                    color="primary"
-                                    style={centerAlign}
-                                />
-                            </ListItemIcon>
-                        </Link>
-                    </ListItem>
+                                </ListItemIcon>
+                            </Link>
+                        </ListItem>
+                    ) : null}
+                    {!userId ? (
+                        <ListItem button>
+                            <Link to="/auth/login">
+                                <ListItemIcon>
+                                    <LoginIcon
+                                        color="primary"
+                                        style={centerAlign}
+                                    />
+                                </ListItemIcon>
+                            </Link>
+                        </ListItem>
+                    ) : null}
                 </List>
             </Drawer>
         </Box>

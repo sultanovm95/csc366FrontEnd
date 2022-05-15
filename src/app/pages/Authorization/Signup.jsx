@@ -1,17 +1,20 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+import axios from 'axios';
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -24,27 +27,37 @@ function Copyright(props) {
             align="center"
             {...props}
         >
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                CSC 366
-            </Link>{' '}
+            {'CodeMonkeys '}
             {new Date().getFullYear()}
             {'.'}
         </Typography>
     );
 }
 
-const handleSubmit = () => {};
+const makeSignUpCall = async (user) => {
+    try {
+        const response = await axios.post(
+            'http://127.0.0.1:4001/users/signup',
+            user
+        );
+        return response;
+    } catch (err) {
+        return err;
+    }
+};
 
 const theme = createTheme();
 
 export const Signup = () => {
+    const [error, setError] = useState('');
+
     const formik = useFormik({
         initialValues: {
             firstName: '',
             lastName: '',
             email: '',
-            password: ''
+            password: '',
+            password_confirm: ''
         },
         validationSchema: Yup.object({
             firstName: Yup.string()
@@ -63,10 +76,25 @@ export const Signup = () => {
             password: Yup.string()
                 .min(8)
                 .max(12)
-                .required('Password is required')
+                .required('Password is required'),
+            password_confirm: Yup.string()
+                .oneOf([Yup.ref('password'), null], 'Passwords must match')
+                .min(8)
+                .max(12)
+                .required('Confirmation is required')
         }),
-        onSubmit: () => {
-            handleSubmit();
+        onSubmit: (values) => {
+            console.log(values);
+            makeSignUpCall(values).then((response) => {
+                const status = response.status;
+                const token = response.data.token;
+                if (status === 201) {
+                    localStorage.setItem('token', JSON.stringify(token));
+                    window.location = '/';
+                } else {
+                    setError('Invalid email | Maybe taken');
+                }
+            });
         }
     });
 
@@ -88,12 +116,7 @@ export const Signup = () => {
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>
-                    <Box
-                        component="form"
-                        noValidate
-                        onSubmit={handleSubmit}
-                        sx={{ mt: 3 }}
-                    >
+                    <Box component="form" noValidate sx={{ mt: 3 }}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
@@ -182,6 +205,28 @@ export const Signup = () => {
                                 />
                             </Grid>
                             <Grid item xs={12}>
+                                <TextField
+                                    error={Boolean(
+                                        formik.touched.passwordConfirmation &&
+                                            formik.errors.passwordConfirmation
+                                    )}
+                                    helperText={
+                                        formik.touched.passwordConfirmation &&
+                                        formik.errors.passwordConfirmation
+                                    }
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
+                                    value={formik.values.passwordConfirmation}
+                                    required
+                                    fullWidth
+                                    name="password_confirm"
+                                    label="Password Confirmation"
+                                    type="password"
+                                    id="password_confirm"
+                                    autoComplete="new-password"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
                                 <FormControlLabel
                                     control={
                                         <Checkbox
@@ -195,6 +240,7 @@ export const Signup = () => {
                         </Grid>
                         <Button
                             disabled={!(formik.isValid && formik.dirty)}
+                            onClick={formik.handleSubmit}
                             type="submit"
                             fullWidth
                             variant="contained"
@@ -211,6 +257,13 @@ export const Signup = () => {
                         </Grid>
                     </Box>
                 </Box>
+                <Typography
+                    variant="body2"
+                    style={{ color: 'red' }}
+                    align="center"
+                >
+                    {error}
+                </Typography>
                 <Copyright sx={{ mt: 5 }} />
             </Container>
         </ThemeProvider>

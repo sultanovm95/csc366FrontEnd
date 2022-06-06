@@ -9,6 +9,7 @@ import List from '@mui/material/List';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
 import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
 
@@ -91,6 +92,16 @@ export const Sidebar = (props) => {
                         </Link>
                     </ListItem>
                     <Divider />
+                    <ListItem button>
+                        <Link to="/jobs">
+                            <ListItemIcon>
+                                <ManageSearchIcon
+                                    color="primary"
+                                    style={centerAlign}
+                                />
+                            </ListItemIcon>
+                        </Link>
+                    </ListItem>
                 </List>
                 <List style={bottomAlign}>
                     {userId ? (

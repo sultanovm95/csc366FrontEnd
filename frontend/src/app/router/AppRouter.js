@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Login, Signup, App, Account, UserProfiles, Posts } from '../pages';
+import {Jobs} from '../pages/Jobs';
 import { getUser } from '../../utils';
 import { useState, useEffect } from 'react';
 
@@ -27,6 +28,8 @@ export const AppRouter = () => {
                         path="history"
                         element={<UserProfiles user={user} />}
                     />
+                    <Route path="jobs" element={<Jobs />} /> 
+                    {/* <Route path="jobs" element={<Login />} />  */}
                 </Route>
 
                 <Route path="/auth">

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import {TextField, Pagination} from '@mui/material';
+import axios from "axios";
 
 export function Jobs() {
 
@@ -43,9 +43,6 @@ export function Jobs() {
       setSubsetJobs(all_jobs.slice(((value - 1) * 15), all_jobs.length))    
   };
 
-  const handleKeyPress = (event) => {
-    console.log("key pressed");
-  };  
 
   function handleJobClick(e) {
     e.preventDefault();
@@ -58,7 +55,6 @@ export function Jobs() {
     fetchJobsMatchingSearch(e.target.value).then((new_jobs) =>  {
       if (new_jobs)
       {
-        console.log(new_jobs)
         setAllJobs(new_jobs);
         setNumPages(Math.ceil(new_jobs.length / 15));
         setPage(1);
@@ -98,10 +94,9 @@ export function Jobs() {
                     <button id={job.ONetId} onClick={handleJobClick} style={{color: "blue",border: "none",background: "none",fontSize: "15px"}}> 
                                {icon_sym} </button>
                 </td>
-              
               </tr>))}        
         </table> 
-        <Pagination page={page} count={num_pages} shape="rounded" onChange={handlePageChange} onKeyDown={handleKeyPress}/>
+        <Pagination page={page} count={num_pages} shape="rounded" onChange={handlePageChange} />
     </body>
   );
 }  

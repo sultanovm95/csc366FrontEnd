@@ -29,7 +29,6 @@ export const AppRouter = () => {
                         element={<UserProfiles user={user} />}
                     />
                     <Route path="jobs" element={<Jobs />} /> 
-                    {/* <Route path="jobs" element={<Login />} />  */}
                 </Route>
 
                 <Route path="/auth">

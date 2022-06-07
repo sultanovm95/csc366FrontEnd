@@ -16,20 +16,20 @@ export const Account = () => (
             }}
         >
             <Container maxWidth="lg">
-                <Typography sx={{ mb: 3, color: 'black' }} variant="h4">
+                <Typography variant="h3" style={{ marginBottom: '10px' }}>
                     Account
                 </Typography>
                 <Grid container spacing={3}>
-                    <Grid item lg={6} md={6} xs={12}>
+                    <Grid item lg={6} md={12} xs={12}>
                         <AccountProfile />
                     </Grid>
-                    <Grid item lg={6} md={6} xs={12}>
+                    <Grid item lg={6} md={12} xs={12}>
                         <AccountProfileDetails />
                     </Grid>
-                    <Grid item lg={6} md={6} xs={12}>
+                    <Grid item lg={6} md={12} xs={12}>
                         <SettingsNotifications />
                     </Grid>
-                    <Grid item lg={6} md={6} xs={12}>
+                    <Grid item lg={6} md={12} xs={12}>
                         <SettingsPassword />
                     </Grid>
                 </Grid>

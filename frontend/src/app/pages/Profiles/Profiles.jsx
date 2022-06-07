@@ -1,26 +1,19 @@
-import { Box, Container, Grid, Typography } from '@mui/material';
-import { CustomerListResults } from '../../../components';
-import { customers } from '../../mocks/customers';
+import { SurveyProfileTable, CustomProfileTable } from '../../../components';
+import Box from '@mui/material/Box';
 
-export const UserProfiles = () => (
-    <>
-        <Box
-            component="main"
-            sx={{
-                backgroundColor: '#edf6f9',
-                padding: '0'
-            }}
-        >
-            <Container maxWidth="lg">
-                <Typography sx={{ mb: 3, color: 'black' }} variant="h4">
-                    User Profiles
-                </Typography>
-                <Grid container spacing={3}>
-                    <Grid item lg={12} md={12} xs={12}>
-                        <CustomerListResults customers={customers} />
-                    </Grid>
-                </Grid>
-            </Container>
+import Typography from '@mui/material/Typography';
+
+import Divider from '@mui/material/Divider';
+
+export const Profiles = () => {
+    return (
+        <Box>
+            <Typography variant="h3" style={{ marginBottom: '10px' }}>
+                Profiles
+            </Typography>
+            <SurveyProfileTable />
+            <Divider style={{ margin: '20px' }} />
+            <CustomProfileTable />
         </Box>
-    </>
-);
+    );
+};

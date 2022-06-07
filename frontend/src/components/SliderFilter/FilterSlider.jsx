@@ -3,9 +3,10 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { getUser } from '../../utils';
+import { SurveyComponent, DragAndDrop } from '../';
 
 export const FilterSlider = () => {
-    const [value, setValue] = useState('one');
+    const [value, setValue] = useState('URE');
 
     const [userId, setUserId] = useState(null);
 
@@ -29,11 +30,13 @@ export const FilterSlider = () => {
                 aria-label="secondary tabs example"
                 centered
             >
-                <Tab value="one" label="URE SURVEY" />
-                <Tab value="upload" label="UPLOAD URE" />
-                {userId ? <Tab value="two" label="JOB SURVEY" /> : null}
-                {userId ? <Tab value="three" label="PROFILES" /> : null}
+                <Tab value="URE" label="URE SURVEY" />
+                <Tab value="UPLOAD" label="UPLOAD URE" />
+                <Tab value="two" label="JOB SURVEY" />
             </Tabs>
+
+            {value === 'URE' ? <SurveyComponent /> : null}
+            {value === 'UPLOAD' ? <DragAndDrop /> : null}
         </Box>
     );
 };

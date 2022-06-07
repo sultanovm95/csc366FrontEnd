@@ -10,8 +10,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
-import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
-import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
+import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 
 import Avatar from '@mui/material/Avatar';
 import Badge from '@mui/material/Badge';
@@ -91,6 +90,16 @@ export const Sidebar = (props) => {
                             </ListItemIcon>
                         </Link>
                     </ListItem>
+                    <ListItem button>
+                        <Link to="/profiles">
+                            <ListItemIcon>
+                                <PeopleOutlineIcon
+                                    color="primary"
+                                    style={centerAlign}
+                                />
+                            </ListItemIcon>
+                        </Link>
+                    </ListItem>
                     <Divider />
                     <ListItem button>
                         <Link to="/jobs">
@@ -106,7 +115,7 @@ export const Sidebar = (props) => {
                 <List style={bottomAlign}>
                     {userId ? (
                         <ListItem button>
-                            <Link to="/profile">
+                            <Link to="/account">
                                 <ListItemIcon>
                                     <StyledBadge
                                         style={centerAlign}

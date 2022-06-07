@@ -4,7 +4,7 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import { StepperSurvey } from '../index';
+import { SurveyComponent } from '../index';
 
 export const TabSlider = () => {
     const [value, setValue] = React.useState('1');
@@ -33,7 +33,7 @@ export const TabSlider = () => {
                     </TabList>
                 </Box>
                 <TabPanel value="1">
-                    <StepperSurvey />
+                    <SurveyComponent />
                 </TabPanel>
                 <TabPanel value="2">Item Two</TabPanel>
                 <TabPanel value="3">Item Three</TabPanel>

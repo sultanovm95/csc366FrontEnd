@@ -26,7 +26,6 @@ export const AccountProfileDetails = (props) => {
         firstName: 'Mohammed',
         lastName: 'Sultanov',
         email: 'msultano@calpoly.edu',
-        phone: '(415) xx-xx-83',
         state: 'California',
         country: 'USA'
     });
@@ -82,17 +81,7 @@ export const AccountProfileDetails = (props) => {
                                 variant="outlined"
                             />
                         </Grid>
-                        <Grid item md={6} xs={12}>
-                            <TextField
-                                fullWidth
-                                label="Phone Number"
-                                name="phone"
-                                onChange={handleChange}
-                                type="number"
-                                value={values.phone}
-                                variant="outlined"
-                            />
-                        </Grid>
+
                         <Grid item md={6} xs={12}>
                             <TextField
                                 fullWidth

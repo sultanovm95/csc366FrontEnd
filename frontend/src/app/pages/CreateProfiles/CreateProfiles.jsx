@@ -66,13 +66,21 @@ export function CreateProfiles() {
 
     //make post call here
     const handleSubmit = (event) => {
-        event.preventDefault();
-        //what is AId
+        event.preventDefault(); 
         console.log({
             PName: PName,
             PType: 'Desired',
-            criteria: criteria_bindings
+            Criteria: criteria_bindings
         });
+        try {
+            //what is AId; Need to find AID from login?
+            axios.post(
+            "http://localhost:5000/profile?aid=0",
+            {PName: PName, PType: 'Desired', Criteria: criteria_bindings}
+          );
+      } catch (err) {
+          return err;
+      }
     };
 
     return (

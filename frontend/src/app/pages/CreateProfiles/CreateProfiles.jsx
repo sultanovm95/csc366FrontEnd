@@ -17,6 +17,7 @@ import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
+import { getHeader } from '../../../utils';
 
 export function CreateProfiles() {
     const [criteria_bindings, setCriteriaBindings] = useState([]);
@@ -73,10 +74,12 @@ export function CreateProfiles() {
             Criteria: criteria_bindings
         });
         try {
+            //No longer need aid uses your login token
             //what is AId; Need to find AID from login?
             axios.post(
-            "http://localhost:5000/profile?aid=0",
-            {PName: PName, PType: 'Desired', Criteria: criteria_bindings}
+            "http://localhost:5000/profile",
+            {PName: PName, PType: 'Desired', Criteria: criteria_bindings},
+            getHeader()
           );
       } catch (err) {
           return err;

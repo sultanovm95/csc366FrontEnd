@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import axios from 'axios';
@@ -89,7 +89,7 @@ export function CreateProfiles() {
     return (
         <Box>
             <Typography variant="h3" style={{ marginBottom: '10px' }}>
-                Adding Criteria
+                Create a Custom Experience
             </Typography>
             <Paper
                 component="form"
@@ -112,7 +112,6 @@ export function CreateProfiles() {
                     Create
                 </Button>
             </Paper>
-
             <TableContainer component={Paper}>
                 <Table aria-label="caption table">
                     <TableHead>

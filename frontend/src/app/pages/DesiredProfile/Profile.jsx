@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import axios from 'axios';
-import { ValueSlider } from './ValueSlider';
-import { ImportanceSlider } from './ImportanceSlider';
-import { criterias } from './mock';
+import { ValueSlider } from '../CreateProfiles/ValueSlider';
+import { ImportanceSlider } from '../CreateProfiles/ImportanceSlider';
+import { criterias } from '../CreateProfiles/mock';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -18,10 +18,30 @@ import InputBase from '@mui/material/InputBase';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import { useParams } from 'react-router-dom';
+import {getHeader} from '../../../utils'
 
-export function CreateProfiles() {
+export function DesiredProfiles() {
     const [criteria_bindings, setCriteriaBindings] = useState([]);
     const [PName, setPName] = useState('');
+    // const [criteriaValues, setCriteriaValues] = useState([]);
+
+    let {id} = useParams()
+
+    useEffect(() => {
+        axios.get(`http://127.0.0.1:5000/profile?pid=${id}`, getHeader())
+        .then(res => {
+            const results = res.data;
+            // console.log(results)
+            if (results.PType == "Desired") {
+                setCriteriaBindings(results.Criteria)
+                setPName(results.PName)
+            }
+        }).catch(err => {
+            console.error(err)
+        })
+    }, [])
+
+    console.log(criteria_bindings)
 
     useEffect(() => {
         makeCriteriaBindings().then((criteriaBindings) => {
@@ -87,7 +107,7 @@ export function CreateProfiles() {
     return (
         <Box>
             <Typography variant="h3" style={{ marginBottom: '10px' }}>
-                Adding Criteria
+                {PName}
             </Typography>
             <Paper
                 component="form"
@@ -104,10 +124,10 @@ export function CreateProfiles() {
                 <InputBase
                     sx={{ ml: 1, flex: 1 }}
                     onChange={handleTextChange}
-                    placeholder="Please name your profile here"
+                    placeholder="Change Name of Profile"
                 />
                 <Button variant="outlined" type="submit" onClick={handleSubmit}>
-                    Create
+                    Update
                 </Button>
             </Paper>
 
@@ -132,6 +152,7 @@ export function CreateProfiles() {
                                     <ValueSlider
                                         resetOnValueChange={resetOnValueChange}
                                         cName={c_binding.cName}
+                                        value={c_binding.cValue}
                                     />
                                 </TableCell>
                                 <TableCell>
@@ -140,6 +161,7 @@ export function CreateProfiles() {
                                             resetOnImportanceChange
                                         }
                                         cName={c_binding.cName}
+                                        value={c_binding.importanceRating}
                                     />
                                 </TableCell>
                             </TableRow>

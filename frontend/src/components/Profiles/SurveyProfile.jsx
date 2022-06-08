@@ -16,6 +16,28 @@ import axios from 'axios';
 
 import {getHeader} from '../../utils'
 
+function handleJobClick(event, link) {
+    event.preventDefault();
+    window.open(
+        'https://www.onetonline.org/link/summary/'.concat(link),
+        '_blank',
+        ',width=1000,height=800,left=0,top=0,toolbar=0,status=0'
+    );
+}
+
+function handleDeleteClick(event, profile) {
+    event.preventDefault();
+
+    console.log(getHeader())
+    axios.get(`http://127.0.0.1:5000/delete?pid=${profile}`, getHeader())
+    .then((res) => {
+        console.log(res.data)
+    }).catch((error) => {
+        console.error(error)
+    })
+    window.location.reload()
+}
+
 const JobMatching = ({pid}) => {
     const [rows, setRows] = React.useState([]);
     React.useEffect(() => {
@@ -34,7 +56,11 @@ const JobMatching = ({pid}) => {
             <TableCell>{job.ONetJob}</TableCell>
             <TableCell align="right">{job.ONetId}</TableCell>
             <TableCell align="right">
-                <InsertLinkOutlinedIcon color="secondary" />
+                <InsertLinkOutlinedIcon onClick={(event) =>
+                                                handleJobClick(
+                                                    event,
+                                                    job.ONetId
+                                                )} color="secondary"/>
             </TableCell>
         </TableRow>
     ));
@@ -81,6 +107,7 @@ export const SurveyProfileTable = ({filter}) => {
         axios.get('http://127.0.0.1:5000/profile/user', getHeader())
         .then(res => {
             const results = res.data;
+            console.log(res)
             setRows(results.profiles.filter(function(data) {
                 return data.PType == filter
             }))
@@ -88,6 +115,7 @@ export const SurveyProfileTable = ({filter}) => {
             console.error(err)
         })
     }, [])
+    console.log(rows)
 
     return (
         <Paper>
@@ -113,7 +141,13 @@ export const SurveyProfileTable = ({filter}) => {
                             </TableCell>
                             <TableCell align="right">{row.date}</TableCell>
                             <TableCell align="right">
-                                <DeleteOutlineIcon color="secondary" />
+                                <DeleteOutlineIcon onClick={
+                                    (event) =>
+                                    handleDeleteClick(
+                                        event,
+                                        row.PId
+                                    )
+                                } color="secondary" />
                             </TableCell>
                         </ExpandableTableRow>
                     ))}

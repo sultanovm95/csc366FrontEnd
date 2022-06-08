@@ -3,6 +3,7 @@ import { TextField, Pagination } from '@mui/material';
 import axios from 'axios';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { responseJSON } from './mock';
 
 export function Jobs() {
     const [all_jobs, setAllJobs] = useState([]);
@@ -21,8 +22,9 @@ export function Jobs() {
     }, []);
 
     async function fetchAllJobs() {
-        const response = await axios.get('http://localhost:5000/jobs');
-        return response.data.jobs;
+        // const response = await axios.get('http://localhost:5000/jobs');
+        const response = responseJSON;
+        return response.jobs;
     }
 
     async function fetchJobsMatchingSearch(text) {

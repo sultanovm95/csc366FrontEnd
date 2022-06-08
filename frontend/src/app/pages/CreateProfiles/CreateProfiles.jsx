@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { TextField, List, ListItem, Typography, Popover } from '@mui/material';
+import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import axios from 'axios';
 import { ValueSlider } from './ValueSlider';
@@ -15,14 +15,12 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
 
 export function CreateProfiles() {
     const [criteria_bindings, setCriteriaBindings] = useState([]);
     const [PName, setPName] = useState('');
-    const [anchorEl, setAnchorEl] = useState(null); //for popup
-    const [openedPopoverId, setOpenedPopoverId] = useState(null); //for popup
 
     useEffect(() => {
         makeCriteriaBindings().then((criteriaBindings) => {
@@ -38,6 +36,8 @@ export function CreateProfiles() {
         );
 
         return response.data.criteria;
+
+        // return criterias.criteria;
     }
 
     function resetOnValueChange(cName, value) {
@@ -59,22 +59,6 @@ export function CreateProfiles() {
             })
         );
     }
-
-    const icon_sym = '\u24D8';
-
-    const handlePopoverOpen = (event) => {
-        setOpenedPopoverId(event.currentTarget.id);
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handlePopoverClose = () => {
-        setOpenedPopoverId(null);
-        setAnchorEl(null);
-    };
-
-    const clickHandler = () => {
-        console.log(criteria_bindings);
-    };
 
     function handleTextChange(e) {
         setPName(e.target.value);
@@ -130,9 +114,11 @@ export function CreateProfiles() {
                     <TableBody>
                         {criteria_bindings.map((c_binding) => (
                             <TableRow key={c_binding.CId}>
-                                <TableCell component="th" scope="row">
-                                    {c_binding.cName}
-                                </TableCell>
+                                <Tooltip title={c_binding.cDescription} arrow>
+                                    <TableCell component="th" scope="row">
+                                        {c_binding.cName}
+                                    </TableCell>
+                                </Tooltip>
                                 <TableCell>
                                     <ValueSlider
                                         resetOnValueChange={resetOnValueChange}

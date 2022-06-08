@@ -200,6 +200,18 @@ export const Login = () => {
                             >
                                 Sign In
                             </Button>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="success"
+                                onClick={() => {
+                                    window.location = '/';
+                                }}
+                                sx={{ mt: 3, mb: 2 }}
+                            >
+                                Continue As Guest
+                            </Button>
                             <Grid container>
                                 <Grid item xs>
                                     <Link href="#" variant="body2">

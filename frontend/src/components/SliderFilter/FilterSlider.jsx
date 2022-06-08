@@ -3,7 +3,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { getUser } from '../../utils';
-import { SurveyComponent, DragAndDrop } from '../';
+import { SurveyComponent, SurveyUploader } from '../';
 
 export const FilterSlider = () => {
     const [value, setValue] = useState('URE');
@@ -36,7 +36,7 @@ export const FilterSlider = () => {
             </Tabs>
 
             {value === 'URE' ? <SurveyComponent /> : null}
-            {value === 'UPLOAD' ? <DragAndDrop /> : null}
+            {value === 'UPLOAD' ? <SurveyUploader /> : null}
         </Box>
     );
 };

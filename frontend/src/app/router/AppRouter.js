@@ -24,8 +24,8 @@ export const AppRouter = () => {
                 <Route path="/" element={<App user={user} />}>
                     <Route index element={<Posts user={user} />} />
                     <Route path="account" element={<Account user={user} />} />
-                    <Route path="profiles" element={<Profiles />} />
-                    <Route path="jobs" element={<Jobs />} />
+                    <Route path="profiles" element={<Profiles user={user} />} />
+                    <Route path="jobs" element={<Jobs user={user}/>} />
                 </Route>
 
                 <Route path="/auth">

@@ -3,8 +3,9 @@ import { TextField, Pagination } from '@mui/material';
 import axios from 'axios';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { getHeader } from '../../../utils';
 
-export function Jobs() {
+export function Jobs( props ) {
     const [all_jobs, setAllJobs] = useState([]);
     const [subset_jobs, setSubsetJobs] = useState([]);
     const [page, setPage] = useState(1);
@@ -21,7 +22,7 @@ export function Jobs() {
     }, []);
 
     async function fetchAllJobs() {
-        const response = await axios.get('http://localhost:5000/jobs');
+        const response = await axios.get("http://localhost:5000/jobs", getHeader());
         return response.data.jobs;
     }
 

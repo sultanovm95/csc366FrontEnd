@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { TextField, Pagination, Select, MenuItem, FormControl, InputLabel} from '@mui/material';
 import axios from 'axios';
 import Typography from '@mui/material/Typography';
+import { getHeader } from '../../../utils';
 
-export function Jobs() {
+export function Jobs( props ) {
     const [all_jobs, setAllJobs] = useState([]);
     const [jobDescriptions, setAllJobDescriptions] = useState([]);
     const [current_jobDescription, setCurrentJobDescription] = useState("All")

@@ -99,7 +99,7 @@ export const Sidebar = (props) => {
                                     style={centerAlign}
                                 />
                             </ListItemIcon>
-                        </Link> 
+                        </Link>
                     </ListItem>
                     <Divider />
                     <ListItem button>
@@ -110,7 +110,7 @@ export const Sidebar = (props) => {
                                     style={centerAlign}
                                 />
                             </ListItemIcon>
-                        </Link> 
+                        </Link>
                     </ListItem>
                     <Divider />
                     <ListItem button>

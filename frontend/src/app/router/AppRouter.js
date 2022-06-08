@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Login, Signup, App, Account, Profiles, Posts } from '../pages';
 import { Jobs } from '../pages/Jobs';
+import {CreateProfiles} from '../pages/CreateProfiles'
 import { getUser } from '../../utils';
 import { useState, useEffect } from 'react';
 
@@ -26,6 +27,7 @@ export const AppRouter = () => {
                     <Route path="account" element={<Account user={user} />} />
                     <Route path="profiles" element={<Profiles />} />
                     <Route path="jobs" element={<Jobs />} />
+                    <Route path="create_profiles" element={<CreateProfiles user={user}/>} /> 
                 </Route>
 
                 <Route path="/auth">
@@ -35,4 +37,5 @@ export const AppRouter = () => {
             </Routes>
         </BrowserRouter>
     );
+
 };

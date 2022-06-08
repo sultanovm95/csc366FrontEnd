@@ -7,6 +7,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import List from '@mui/material/List';
 
 import ListItemIcon from '@mui/material/ListItemIcon';
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
@@ -98,7 +99,18 @@ export const Sidebar = (props) => {
                                     style={centerAlign}
                                 />
                             </ListItemIcon>
-                        </Link>
+                        </Link> 
+                    </ListItem>
+                    <Divider />
+                    <ListItem button>
+                        <Link to="/create_profiles">
+                            <ListItemIcon>
+                                <AddOutlinedIcon
+                                    color="primary"
+                                    style={centerAlign}
+                                />
+                            </ListItemIcon>
+                        </Link> 
                     </ListItem>
                     <Divider />
                     <ListItem button>

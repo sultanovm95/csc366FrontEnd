@@ -16,7 +16,7 @@ export const getHeader = () => {
     console.log(auth)
     const header = {
         headers: {
-            'Authorization': "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY1NDY2OTg3NiwianRpIjoiNjAwZjc0Y2UtZTBmYy00OGJhLTg2ODYtYWIyMzQ1YWQ5MTk5IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6eyJlbWFpbCI6InllZXQzQGdtYWlsLmNvbSIsImV4cCI6IlRodSwgMDkgSnVuIDIwMjIgMDY6MzE6MTYgR01UIn0sIm5iZiI6MTY1NDY2OTg3NiwiZXhwIjoxNjU0NjcwNzc2fQ.MdoWTQKpa3kAQVRQT22f8jHTe7XVfKgE0ytMFPdjAYI",
+            'Authorization': auth,
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
         }

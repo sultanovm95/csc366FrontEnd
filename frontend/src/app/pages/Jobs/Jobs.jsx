@@ -29,7 +29,7 @@ export function Jobs( props ) {
         })}, []);
 
     async function fetchAllJobsByType(jobType) {
-        const response = await axios.get('http://localhost:5000/jobs?jobType=' + jobType);
+        const response = await axios.get('http://localhost:5000/jobs?jobType=' + jobType, getHeader());
         return response.data.jobs;
     }
 

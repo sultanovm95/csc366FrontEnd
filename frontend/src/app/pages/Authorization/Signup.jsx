@@ -39,7 +39,7 @@ const makeSignUpCall = async (user) => {
     try {
         const response = await axios.post(
             //'http://127.0.0.1:4001/users/signup',
-            "http://localhost:5000/users/signup",
+            'http://localhost:5000/users/signup',
             user
         );
         return response;

@@ -19,6 +19,8 @@ export const getHeader = () => {
         headers: {
             'Authorization': auth,
             'Access-Control-Allow-Origin': '*',
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/json',
             'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
         }
     };

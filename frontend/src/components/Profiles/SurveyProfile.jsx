@@ -74,14 +74,16 @@ const ExpandableTableRow = ({ children, id, ...otherProps }) => {
     );
 };
 
-export const SurveyProfileTable = ({data}) => {
+export const SurveyProfileTable = ({filter}) => {
     const [rows, setRows] = React.useState([]);
 
     React.useEffect(() => {
         axios.get('http://127.0.0.1:5000/profile/user', getHeader())
         .then(res => {
             const results = res.data;
-            setRows(results.profiles)
+            setRows(results.profiles.filter(function(data) {
+                return data.PType == filter
+            }))
         }).catch(err => {
             console.error(err)
         })
@@ -93,7 +95,7 @@ export const SurveyProfileTable = ({data}) => {
                 <TableHead>
                     <TableRow>
                         <TableCell padding="checkbox" />
-                        <TableCell>Survey Profiles</TableCell>
+                        <TableCell>{filter} Profiles</TableCell>
                         <TableCell align="right">Date Completed</TableCell>
                         <TableCell align="right">
                             <AddCircleOutlineIcon color="primary" />
@@ -101,9 +103,7 @@ export const SurveyProfileTable = ({data}) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.filter(function(data) {
-                        return data.PType == "Experience"
-                    }).map((row) => (
+                    {rows.map((row) => (
                         <ExpandableTableRow
                             key={row.PId}
                             id={row.PId}

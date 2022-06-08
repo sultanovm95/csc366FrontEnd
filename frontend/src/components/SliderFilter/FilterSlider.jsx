@@ -3,7 +3,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { getUser } from '../../utils';
-import { SurveyComponent, SurveyUploader } from '../';
+import { SurveyComponent, SurveyJobComponent, SurveyUploader } from '../';
 
 export const FilterSlider = () => {
     const [value, setValue] = useState('URE');
@@ -32,11 +32,12 @@ export const FilterSlider = () => {
             >
                 <Tab value="URE" label="URE SURVEY" />
                 <Tab value="UPLOAD" label="UPLOAD URE" />
-                <Tab value="two" label="JOB SURVEY" />
+                <Tab value="JOB" label="JOB SURVEY" />
             </Tabs>
 
             {value === 'URE' ? <SurveyComponent /> : null}
             {value === 'UPLOAD' ? <SurveyUploader /> : null}
+            {value === 'JOB' ? <SurveyJobComponent /> : null}
         </Box>
     );
 };

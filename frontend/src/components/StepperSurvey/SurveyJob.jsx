@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import 'survey-core/defaultV2.css';
 import { quiz } from './surveyJobJSON';
 
+import axios from 'axios';
+
 StylesManager.applyTheme('defaultV2');
 
 export const SurveyJobComponent = () => {
@@ -19,12 +21,6 @@ export const SurveyJobComponent = () => {
     survey.showQuestionNumbers = 'on';
     survey.questionsOnPageMode = 'questionPerPage';
     survey.showPreviewBeforeComplete = 'showAllQuestions';
-    survey.onComplete.add(function (sender) {
-        // sending to backend
-        console.log(sender.data);
-        // await and render /jobs
-        navigate('./jobs', { replace: true });
-    });
 
     survey.onComplete.add(function (sender, options) {
         // By default, the 'clear' method clears all data and go to the first page
@@ -33,6 +29,7 @@ export const SurveyJobComponent = () => {
         // Turn a survey into read-only mode
         sender.mode = 'display';
         console.log(sender.data);
+        navigate('./jobs', { replace: true });
     });
 
     return <Survey model={survey} />;

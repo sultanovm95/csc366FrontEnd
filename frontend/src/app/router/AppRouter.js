@@ -1,33 +1,21 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Login, Signup, App, Account, Profiles, Posts } from '../pages';
 import { Jobs } from '../pages/Jobs';
-import {CreateProfiles} from '../pages/CreateProfiles'
-import { getUser } from '../../utils';
-import { useState, useEffect } from 'react';
-
-const getUserData = async () => {
-    const user = await getUser();
-    return user;
-};
+import { CreateProfiles } from '../pages/CreateProfiles';
 
 export const AppRouter = () => {
-    const [user, setUser] = useState();
-
-    useEffect(() => {
-        getUserData().then((userData) => {
-            setUser(userData);
-        });
-    }, []);
-
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<App user={user} />}>
-                    <Route index element={<Posts user={user} />} />
-                    <Route path="account" element={<Account user={user} />} />
+                <Route path="/" element={<App />}>
+                    <Route index element={<Posts />} />
+                    <Route path="account" element={<Account />} />
                     <Route path="profiles" element={<Profiles />} />
                     <Route path="jobs" element={<Jobs />} />
-                    <Route path="create_profiles" element={<CreateProfiles user={user}/>} /> 
+                    <Route
+                        path="create_profiles"
+                        element={<CreateProfiles />}
+                    />
                 </Route>
 
                 <Route path="/auth">
@@ -37,5 +25,4 @@ export const AppRouter = () => {
             </Routes>
         </BrowserRouter>
     );
-
 };

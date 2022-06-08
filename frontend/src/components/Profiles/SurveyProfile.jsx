@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@mui/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -22,16 +21,6 @@ const matches = [
     createJob('Software Engineering', '123AB'),
     createJob('Data Analyst', '231AS')
 ];
-
-const useStyles = makeStyles({
-    root: {
-        width: '100%',
-        overflowX: 'auto'
-    },
-    table: {
-        minWidth: 650
-    }
-});
 
 function createData(name, date, matchings) {
     return { name, date, matchings };
@@ -91,11 +80,9 @@ const ExpandableTableRow = ({ children, expandComponent, ...otherProps }) => {
 };
 
 export const SurveyProfileTable = () => {
-    const classes = useStyles();
-
     return (
-        <Paper className={classes.root}>
-            <Table className={classes.table} aria-label="simple table">
+        <Paper>
+            <Table aria-label="simple table">
                 <TableHead>
                     <TableRow>
                         <TableCell padding="checkbox" />

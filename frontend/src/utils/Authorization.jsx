@@ -1,9 +1,10 @@
 import axios from 'axios';
 
 export const getUser = async () => {
-    let header = getHeader();
-    const response = await axios.get('http://127.0.0.1:4001/users/me', header);
-    return response.data;
+    // let header = getHeader();
+    // const response = await axios.get('http://127.0.0.1:5000/users/me', header);
+    // const response = await axios.get('http://127.0.0.1:4001/users/me', header);
+    return getUserToken();
 };
 
 export const getUserToken = () => {
@@ -27,5 +28,6 @@ export const getHeader = () => {
 
 export const makeLogoutCall = () => {
     localStorage.removeItem('token');
-    axios.post('http://127.0.0.1:4001/users/logout');
+    // axios.post('http://127.0.0.1:4001/users/logout');
+    axios.post('http://127.0.0.1:5000/users/logout');
 };

@@ -21,17 +21,18 @@ import { visuallyHidden } from '@mui/utils';
 
 import ListAltIcon from '@mui/icons-material/ListAlt';
 
-function createData(name, date) {
+import axios from 'axios';
+
+import {getHeader} from '../../utils'
+
+function createData(name, id, date) {
     return {
         name,
+        id,
         date
     };
 }
 
-const rows = [
-    createData('123ABC', 'June 3, 2022'),
-    createData('512QW', 'June 5, 2022')
-];
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -200,6 +201,19 @@ export const CustomProfileTable = () => {
     const [page, setPage] = React.useState(0);
 
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [desired, setDesired] = React.useState([]);
+
+    React.useEffect(() => {
+        axios.get('http://127.0.0.1:5000/profile/user', getHeader())
+        .then(res => {
+            const results = res.data;
+            setDesired(results.profiles.filter(function(d) {
+                return d.PType === "Desired"
+            }))
+        }).catch(err => {
+            console.error(err)
+        })
+    }, [])
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -209,7 +223,7 @@ export const CustomProfileTable = () => {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelecteds = rows.map((n) => n.name);
+            const newSelecteds = desired.map((n) => n.name);
             setSelected(newSelecteds);
             return;
         }
@@ -261,30 +275,30 @@ export const CustomProfileTable = () => {
                             orderBy={orderBy}
                             onSelectAllClick={handleSelectAllClick}
                             onRequestSort={handleRequestSort}
-                            rowCount={rows.length}
+                            rowCount={desired.length}
                         />
                         <TableBody>
                             {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
-                            {stableSort(rows, getComparator(order, orderBy))
+                            {desired
                                 .slice(
                                     page * rowsPerPage,
                                     page * rowsPerPage + rowsPerPage
                                 )
                                 .map((row, index) => {
-                                    const isItemSelected = isSelected(row.name);
+                                    const isItemSelected = isSelected(row.PName);
                                     const labelId = `enhanced-table-checkbox-${index}`;
 
                                     return (
                                         <TableRow
                                             hover
                                             onClick={(event) =>
-                                                handleClick(event, row.name)
+                                                handleClick(event, row.PId)
                                             }
                                             role="checkbox"
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
-                                            key={row.name}
+                                            key={row.PId}
                                             selected={isItemSelected}
                                         >
                                             <TableCell padding="checkbox">
@@ -302,7 +316,7 @@ export const CustomProfileTable = () => {
                                                 id={labelId}
                                                 scope="row"
                                             >
-                                                {row.name}
+                                                {row.PName}
                                             </TableCell>
                                             <TableCell
                                                 align="right"
@@ -329,7 +343,7 @@ export const CustomProfileTable = () => {
                 <TablePagination
                     rowsPerPageOptions={[10, 25, 50]}
                     component="div"
-                    count={rows.length}
+                    count={desired.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}

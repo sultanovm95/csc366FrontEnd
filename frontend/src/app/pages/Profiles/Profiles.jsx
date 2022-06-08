@@ -11,7 +11,7 @@ export const Profiles = () => {
             <Typography variant="h3" style={{ marginBottom: '10px' }}>
                 Profiles
             </Typography>
-            <SurveyProfileTable />
+            <SurveyProfileTable/>
             <Divider style={{ margin: '20px' }} />
             <CustomProfileTable />
         </Box>

@@ -12,26 +12,27 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import InsertLinkOutlinedIcon from '@mui/icons-material/InsertLinkOutlined';
+import axios from 'axios';
 
-function createJob(name, id) {
-    return { name, id };
-}
+import {getHeader} from '../../utils'
 
-const matches = [
-    createJob('Software Engineering', '123AB'),
-    createJob('Data Analyst', '231AS')
-];
+const JobMatching = ({pid}) => {
+    const [rows, setRows] = React.useState([]);
+    React.useEffect(() => {
+        axios.get(`http://127.0.0.1:5000/profile/match?pid=${pid}`, getHeader())
+        .then(res => {
+            const results = res.data;
+            setRows(results.matches)
+        }).catch(err => {
+            console.error(err)
+        })
+    }, [])
 
-function createData(name, date, matchings) {
-    return { name, date, matchings };
-}
-
-const JobMatching = () => {
-    let jobListings = matches.map((job) => (
-        <TableRow>
+    let jobListings = rows.map((job) => (
+        <TableRow key={job.ONetId}>
             <TableCell padding="checkbox" />
-            <TableCell>{job.name}</TableCell>
-            <TableCell align="right">{job.id}</TableCell>
+            <TableCell>{job.ONetJob}</TableCell>
+            <TableCell align="right">{job.ONetId}</TableCell>
             <TableCell align="right">
                 <InsertLinkOutlinedIcon color="secondary" />
             </TableCell>
@@ -41,13 +42,7 @@ const JobMatching = () => {
     return jobListings;
 };
 
-const rows = [
-    createData('Custome 1', 'June 3rd, 2022', matches),
-    createData('Test 2', 'June 3rd, 2022', matches),
-    createData('Test 4', 'June 3rd, 2022', matches)
-];
-
-const ExpandableTableRow = ({ children, expandComponent, ...otherProps }) => {
+const ExpandableTableRow = ({ children, id, ...otherProps }) => {
     const [isExpanded, setIsExpanded] = React.useState(false);
 
     return (
@@ -72,14 +67,26 @@ const ExpandableTableRow = ({ children, expandComponent, ...otherProps }) => {
                         <TableCell align="right">Job ID</TableCell>
                         <TableCell align="right"></TableCell>
                     </TableRow>
-                    {JobMatching(rows.matchings)}
+                    <JobMatching pid={id}/>
                 </>
             )}
         </>
     );
 };
 
-export const SurveyProfileTable = () => {
+export const SurveyProfileTable = ({data}) => {
+    const [rows, setRows] = React.useState([]);
+
+    React.useEffect(() => {
+        axios.get('http://127.0.0.1:5000/profile/user', getHeader())
+        .then(res => {
+            const results = res.data;
+            setRows(results.profiles)
+        }).catch(err => {
+            console.error(err)
+        })
+    }, [])
+
     return (
         <Paper>
             <Table aria-label="simple table">
@@ -94,13 +101,15 @@ export const SurveyProfileTable = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
+                    {rows.filter(function(data) {
+                        return data.PType == "Experience"
+                    }).map((row) => (
                         <ExpandableTableRow
-                            key={row.name}
-                            expandComponent={JobMatching(matches)}
+                            key={row.PId}
+                            id={row.PId}
                         >
                             <TableCell component="th" scope="row">
-                                {row.name}
+                                {row.PName}
                             </TableCell>
                             <TableCell align="right">{row.date}</TableCell>
                             <TableCell align="right">

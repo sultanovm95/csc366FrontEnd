@@ -10,6 +10,7 @@ export function ValueSlider(props) {
   return(
       <Slider style={{border: "solid 1px",width: "20%"}} 
               valueLabelDisplay="auto"
+              defaultValue={4}
               min={0}
               max={7}
               onChangeCommitted={valueSliderChange}> 

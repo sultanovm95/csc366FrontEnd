@@ -72,15 +72,7 @@ export function Jobs() {
                 if (new_jobs.length >= 15) setSubsetJobs(new_jobs.slice(0, 15));
                 else setSubsetJobs(new_jobs.slice(0, new_jobs.length));
             }
-        });
-        // const new_jobs = fetchJobsMatchingSearch(e.target.value);
-        // setAllJobs(new_jobs);
-        // setNumPages(Math.ceil(new_jobs.length / 15));
-        // setPage(1);
-        // if (new_jobs.length >= 15) 
-        //     setSubsetJobs(new_jobs.slice(0, 15));
-        // else 
-        //     setSubsetJobs(new_jobs.slice(0, new_jobs.length));      
+        });   
     }
 
     function handleJobTypeChange(e) {

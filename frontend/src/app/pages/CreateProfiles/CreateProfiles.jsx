@@ -1,154 +1,159 @@
-import { useState, useEffect } from "react";
-import {TextField, List, ListItem, Typography, Popover} from '@mui/material';
-import axios from "axios";
-import {ValueSlider} from "./ValueSlider";
-import {ImportanceSlider} from "./ImportanceSlider";
+import { useState, useEffect } from 'react';
+import { TextField, List, ListItem, Typography, Popover } from '@mui/material';
+import Box from '@mui/material/Box';
+import axios from 'axios';
+import { ValueSlider } from './ValueSlider';
+import { ImportanceSlider } from './ImportanceSlider';
+import { criterias } from './mock';
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
+import InputBase from '@mui/material/InputBase';
+import Divider from '@mui/material/Divider';
+import Button from '@mui/material/Button';
+
 export function CreateProfiles() {
+    const [criteria_bindings, setCriteriaBindings] = useState([]);
+    const [PName, setPName] = useState('');
+    const [anchorEl, setAnchorEl] = useState(null); //for popup
+    const [openedPopoverId, setOpenedPopoverId] = useState(null); //for popup
 
-  const [criteria_bindings, setCriteriaBindings] = useState([]);
-  const [PName, setPName] = useState("");
-  const [anchorEl, setAnchorEl] = useState(null); //for popup
-  const [openedPopoverId, setOpenedPopoverId] = useState(null); //for popup
+    useEffect(() => {
+        makeCriteriaBindings().then((criteriaBindings) => {
+            if (criteriaBindings) {
+                setCriteriaBindings(criteriaBindings);
+            }
+        });
+    }, []);
 
-  useEffect(() => {
-    makeCriteriaBindings().then((criteriaBindings) => {
-      if (criteriaBindings) {
-        setCriteriaBindings(criteriaBindings)
-        console.log(criteriaBindings)
-      }
-    });
-  }, []);
+    async function makeCriteriaBindings() {
+        // const response = await axios.get(
+        //   "http://localhost:5000/criteria_values"
+        // );
 
+        // return response.data.criteria;
 
- 
-  async function makeCriteriaBindings() {
-    const response = await axios.get(
-      "http://localhost:5000/criteria_values"
-    );
-    return response.data.criteria;
-  }
+        return criterias.criteria;
+    }
 
-  function resetOnValueChange(cName, value)
-  {
-    setCriteriaBindings(criteria_bindings.map(binding => {
-        if (binding.cName === cName) 
-          return {...binding, cValue: value};
-        else
-          return binding;
-        }
-      ))
-  }
+    function resetOnValueChange(cName, value) {
+        setCriteriaBindings(
+            criteria_bindings.map((binding) => {
+                if (binding.cName === cName)
+                    return { ...binding, cValue: value };
+                else return binding;
+            })
+        );
+    }
 
-  function resetOnImportanceChange(cName, value)
-  {
-    setCriteriaBindings(criteria_bindings.map(binding => {
-        if (binding.cName === cName) 
-          return {...binding, importanceRating: value};
-        else
-          return binding;
-        }
-      ))
-  }
+    function resetOnImportanceChange(cName, value) {
+        setCriteriaBindings(
+            criteria_bindings.map((binding) => {
+                if (binding.cName === cName)
+                    return { ...binding, importanceRating: value };
+                else return binding;
+            })
+        );
+    }
 
+    const icon_sym = '\u24D8';
 
+    const handlePopoverOpen = (event) => {
+        setOpenedPopoverId(event.currentTarget.id);
+        setAnchorEl(event.currentTarget);
+    };
 
+    const handlePopoverClose = () => {
+        setOpenedPopoverId(null);
+        setAnchorEl(null);
+    };
 
+    const clickHandler = () => {
+        console.log(criteria_bindings);
+    };
 
-  const icon_sym = "\u24D8"
- 
-  const handlePopoverOpen = (event) => {
-    setOpenedPopoverId(event.currentTarget.id)
-    setAnchorEl(event.currentTarget);
-  };
+    function handleTextChange(e) {
+        setPName(e.target.value);
+    }
 
-  const handlePopoverClose = () => {
-    setOpenedPopoverId(null);
-    setAnchorEl(null) };
+    //make post call here
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        //what is AId
+        console.log({
+            PName: PName,
+            PType: 'Desired',
+            criteria: criteria_bindings
+        });
+    };
 
-  const clickHandler = () => {console.log(criteria_bindings)}; 
-
-  function handleTextChange(e) {setPName(e.target.value)}
-
-
-
-
-
-  //make post call here
-  const handleSubmit = () => {
-    //what is AId
-    console.log({"PName": PName, "PType": "Desired", "criteria": criteria_bindings})
-  }
-
-
-  return(
-    <body>
-      <h1 style={{color: "black"}}>Create Your Custom Profile</h1>
-      {/* <button onClick={clickHandler}>Testing console log to store criteria values/ratings</button> */}
-      <TextField
-                style={{ width: '50%' }}
-                variant="outlined"
-                label="Please name your profile here"
-                onChange={handleTextChange}
-            >
-                {' '}
-      </TextField>
-      <List>
-        <ListItem>
-        <p style={{textAlign: "center",color: "red", width: "23%", height: "0px", fontSize: "20px"}}><b>Job Characteristic</b></p>
-        <p style={{textAlign: "center",color: "red", width: "20%", height: "0px", fontSize: "20px"}}><b>Value</b></p>
-        <p style={{textAlign: "center",color: "red", width: "20%", height: "0px", fontSize: "20px"}}><b>Importance</b></p>
-        </ListItem>
-        {criteria_bindings.map(c_binding =>
-          (
-            <ListItem>
-              <Typography id={c_binding.CId} 
-                      aria-owns={Boolean(anchorEl) ? 'mouse-over-popover' : undefined}
-                      aria-haspopup="true"
-                      onMouseEnter={handlePopoverOpen}
-                      onMouseLeave={handlePopoverClose}
-                  style={{color: "blue", width: "3%", fontSize: "20px"}}
-                  >{icon_sym}
-              </Typography>
-              <Popover
-                id="mouse-over-popover"
+    return (
+        <Box>
+            <Typography variant="h3" style={{ marginBottom: '10px' }}>
+                Adding Criteria
+            </Typography>
+            <Paper
+                component="form"
                 sx={{
-                  pointerEvents: 'none',
+                    p: '2px 4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    width: '70%',
+                    margin: 'auto',
+                    marginTop: '20px',
+                    marginBottom: '20px'
                 }}
-                open={openedPopoverId == c_binding.CId}
-                anchorEl={anchorEl}
-  
+            >
+                <InputBase
+                    sx={{ ml: 1, flex: 1 }}
+                    onChange={handleTextChange}
+                    placeholder="Please name your profile here"
+                />
+                <Button variant="outlined" type="submit" onClick={handleSubmit}>
+                    Create
+                </Button>
+            </Paper>
 
-                anchorOrigin={{
-                  vertical: -50,
-                  horizontal: -10,
-                }}
-                onClose={handlePopoverClose}
-                disableRestoreFocus
-              >
-              <Typography sx={{ p: 1 }}>{c_binding.cDescription}</Typography>
-            </Popover>
-     
-
-              <p style={{color: "black", width: "20%"}}>{c_binding.cName}</p>
-              <ValueSlider resetOnValueChange={resetOnValueChange} cName={c_binding.cName}/>
-              <ImportanceSlider resetOnImportanceChange={resetOnImportanceChange} cName={c_binding.cName}/>
-            </ListItem>
-
-          )
-        
-        
-        )
-
-        }
-
-      </List>
-      <button style={{marginLeft: "50%", borderRadius: "15px",background: "yellow", border: "solid 1px",
-                      color: "black", width: "15%", height: "50%", fontSize: "20px"}} 
-              onClick={handleSubmit}>Create Profile
-      </button>
-    </body>
-
-
-  )
+            <TableContainer component={Paper}>
+                <Table aria-label="caption table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Description</TableCell>
+                            <TableCell align="left">Value</TableCell>
+                            <TableCell align="left">Importance</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {criteria_bindings.map((c_binding) => (
+                            <TableRow key={c_binding.CId}>
+                                <TableCell component="th" scope="row">
+                                    {c_binding.cName}
+                                </TableCell>
+                                <TableCell>
+                                    <ValueSlider
+                                        resetOnValueChange={resetOnValueChange}
+                                        cName={c_binding.cName}
+                                    />
+                                </TableCell>
+                                <TableCell>
+                                    <ImportanceSlider
+                                        resetOnImportanceChange={
+                                            resetOnImportanceChange
+                                        }
+                                        cName={c_binding.cName}
+                                    />
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Box>
+    );
 }
-

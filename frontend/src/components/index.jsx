@@ -10,4 +10,3 @@ export * from './ProgressBar';
 export * from './RoleCheckbox';
 export * from './SliderFilter';
 export * from './Profiles';
-export * from './DragAndDrop';

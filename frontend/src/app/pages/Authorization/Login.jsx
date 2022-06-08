@@ -41,7 +41,8 @@ function Copyright(props) {
 const makeLoginCall = async (user) => {
     try {
         const response = await axios.post(
-            'http://127.0.0.1:4001/users/login',
+            //'http://127.0.0.1:4001/users/login',
+            "http://localhost:5000/users/login",
             user
         );
         return response;
@@ -199,6 +200,18 @@ export const Login = () => {
                                 sx={{ mt: 3, mb: 2 }}
                             >
                                 Sign In
+                            </Button>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="success"
+                                onClick={() => {
+                                    window.location = '/';
+                                }}
+                                sx={{ mt: 3, mb: 2 }}
+                            >
+                                Continue As Guest
                             </Button>
                             <Grid container>
                                 <Grid item xs>

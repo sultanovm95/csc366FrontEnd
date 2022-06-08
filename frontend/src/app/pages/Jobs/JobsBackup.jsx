@@ -1,16 +1,5 @@
 import { useState, useEffect } from 'react';
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import SearchBar from 'material-ui-search-bar';
-
-import LinkIcon from '@mui/icons-material/Link';
-
 import {
     TextField,
     Pagination,
@@ -23,9 +12,7 @@ import axios from 'axios';
 import Typography from '@mui/material/Typography';
 import { getHeader } from '../../../utils';
 
-import { responseJSON } from './mock';
-
-export function Jobs(props) {
+export function JobsBackUp(props) {
     const [all_jobs, setAllJobs] = useState([]);
     const [jobDescriptions, setAllJobDescriptions] = useState([]);
     const [current_jobDescription, setCurrentJobDescription] = useState('All');
@@ -80,10 +67,10 @@ export function Jobs(props) {
         else setSubsetJobs(all_jobs.slice((value - 1) * 15, all_jobs.length));
     };
 
-    function handleJobClick(event, link) {
-        event.preventDefault();
+    function handleJobClick(e) {
+        e.preventDefault();
         window.open(
-            'https://www.onetonline.org/link/summary/'.concat(link),
+            'https://www.onetonline.org/link/summary/'.concat(e.target.id),
             '_blank',
             ',width=1000,height=800,left=0,top=0,toolbar=0,status=0'
         );
@@ -129,17 +116,18 @@ export function Jobs(props) {
             <Typography variant="h3" style={{ marginBottom: '10px' }}>
                 ONetJob
             </Typography>
-
-            <FormControl
-                style={{
-                    width: '100%',
-                    backgroundColor: 'white',
-                    margin: '10px 0px'
-                }}
+            <TextField
+                style={{ width: '50%' }}
+                variant="outlined"
+                label="Job Title Search"
+                onChange={handleTextChange}
             >
+                {' '}
+            </TextField>
+            <FormControl style={{ marginLeft: '5%', width: '25%' }}>
                 <InputLabel>Job Type</InputLabel>
                 <Select
-                    label="Type"
+                    label="Age"
                     value={current_jobDescription}
                     onChange={handleJobTypeChange}
                 >
@@ -152,48 +140,54 @@ export function Jobs(props) {
                 </Select>
             </FormControl>
 
-            <Paper>
-                <SearchBar
-                    style={{ margin: '10px 10px' }}
-                    onChange={handleTextChange}
-                    onCancelSearch={() => console.log('Canceled search')}
-                />
-                <TableContainer>
-                    <Table aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Job Title</TableCell>
-                                <TableCell align="right">
-                                    Job Description
-                                </TableCell>
-                                <TableCell align="right"></TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {subset_jobs.map((job) => (
-                                <TableRow key={job.ONetId}>
-                                    <TableCell component="th" scope="row">
-                                        {job.ONetJob}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        {job.ONetDescription}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        <LinkIcon
-                                            onClick={(event) =>
-                                                handleJobClick(
-                                                    event,
-                                                    job.ONetId
-                                                )
-                                            }
-                                        />
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </Paper>
+            <table
+                style={{
+                    border: 'solid 5px',
+                    width: '100%',
+                    marginTop: '10px'
+                }}
+            >
+                <tr style={row_style}>
+                    <th>Job Title</th>
+                    <th>Job Description</th>
+                </tr>
+                {subset_jobs.map((job) => (
+                    <tr key={job.ONetId} id={job.ONetId}>
+                        <td
+                            style={{
+                                border: 'solid 1px',
+                                width: '50%',
+                                color: 'black'
+                            }}
+                        >
+                            {job.ONetJob}
+                        </td>
+                        <td
+                            style={{
+                                border: 'solid 1px',
+                                width: '50%',
+                                color: 'black'
+                            }}
+                        >
+                            {job.ONetDescription}
+                        </td>
+                        <td>
+                            <button
+                                id={job.ONetId}
+                                onClick={handleJobClick}
+                                style={{
+                                    color: 'blue',
+                                    border: 'none',
+                                    background: 'none',
+                                    fontSize: '15px'
+                                }}
+                            >
+                                {icon_sym}{' '}
+                            </button>
+                        </td>
+                    </tr>
+                ))}
+            </table>
 
             <Pagination
                 page={page}

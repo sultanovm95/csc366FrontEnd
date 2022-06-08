@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import axios from 'axios';
@@ -18,6 +18,7 @@ import InputBase from '@mui/material/InputBase';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import { useParams } from 'react-router-dom';
+import { getHeader } from '../../../utils';
 
 export function CreateProfiles() {
     const [criteria_bindings, setCriteriaBindings] = useState([]);
@@ -74,10 +75,12 @@ export function CreateProfiles() {
             Criteria: criteria_bindings
         });
         try {
+            //No longer need aid uses your login token
             //what is AId; Need to find AID from login?
             axios.post(
-            "http://localhost:5000/profile?aid=0",
-            {PName: PName, PType: 'Desired', Criteria: criteria_bindings}
+            "http://localhost:5000/profile",
+            {PName: PName, PType: 'Desired', Criteria: criteria_bindings},
+            getHeader()
           );
       } catch (err) {
           return err;
@@ -87,7 +90,7 @@ export function CreateProfiles() {
     return (
         <Box>
             <Typography variant="h3" style={{ marginBottom: '10px' }}>
-                Adding Criteria
+                Create a Custom Experience
             </Typography>
             <Paper
                 component="form"
@@ -110,7 +113,6 @@ export function CreateProfiles() {
                     Create
                 </Button>
             </Paper>
-
             <TableContainer component={Paper}>
                 <Table aria-label="caption table">
                     <TableHead>

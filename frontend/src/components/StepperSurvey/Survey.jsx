@@ -8,6 +8,7 @@ import 'survey-core/defaultV2.css';
 import { quiz } from './surveyJSON';
 
 import axios from 'axios';
+import { getHeader } from '../../utils';
 
 StylesManager.applyTheme('defaultV2');
 
@@ -15,6 +16,8 @@ export const SurveyComponent = () => {
     let navigate = useNavigate();
 
     const survey = new Model(quiz);
+    //var survey = new Model(axios.get("http://localhost:5000/survey?sid=1"), getHeader());
+
     survey.showProgressBar = 'bottom';
     survey.showNavigationButtons = true;
     survey.goNextPageAutomatic = true;
@@ -29,6 +32,7 @@ export const SurveyComponent = () => {
         // Turn a survey into read-only mode
         sender.mode = 'display';
         console.log(sender.data);
+        //axios.post()
         navigate('./jobs', { replace: true });
     });
 

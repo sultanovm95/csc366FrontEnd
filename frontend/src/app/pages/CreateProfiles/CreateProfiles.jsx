@@ -31,13 +31,13 @@ export function CreateProfiles() {
     }, []);
 
     async function makeCriteriaBindings() {
-        const response = await axios.get(
-            'http://localhost:5000/criteria_values'
-        );
+        // const response = await axios.get(
+        //     'http://localhost:5000/criteria_values'
+        // );
 
-        return response.data.criteria;
+        // return response.data.criteria;
 
-        // return criterias.criteria;
+        return criterias.criteria;
     }
 
     function resetOnValueChange(cName, value) {

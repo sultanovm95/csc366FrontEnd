@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Login, Signup, App, Account, Profiles, Posts } from '../pages';
 import { Jobs, JobsBackUp } from '../pages/Jobs';
 import { CreateProfiles } from '../pages/CreateProfiles';
+import { DesiredProfiles } from '../pages/DesiredProfile';
 
 
 
@@ -28,6 +29,10 @@ export const AppRouter = () => {
                     <Route
                         path="create_profiles"
                         element={<CreateProfiles />}
+                    />
+                    <Route
+                        path="profiles/:id"
+                        element={<DesiredProfiles />}
                     />
                 </Route>
                 <Route path="/auth">

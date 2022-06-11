@@ -90,8 +90,7 @@ export function Jobs(props) {
     }
 
     function handleTextChange(e) {
-        e.preventDefault();
-        fetchJobsMatchingSearch(e.target.value).then((new_jobs) => {
+        fetchJobsMatchingSearch(e).then((new_jobs) => {
             if (new_jobs) {
                 setAllJobs(new_jobs);
                 setNumPages(Math.ceil(new_jobs.length / 15));
@@ -143,7 +142,7 @@ export function Jobs(props) {
                     value={current_jobDescription}
                     onChange={handleJobTypeChange}
                 >
-                    <MenuItem value={''}>All</MenuItem>
+                    <MenuItem value={'All'}>All</MenuItem>
                     {jobDescriptions.map((jobDescription) => (
                         <MenuItem value={jobDescription.ONetDescription}>
                             {jobDescription.ONetDescription}
@@ -153,10 +152,14 @@ export function Jobs(props) {
             </FormControl>
 
             <Paper>
-                <SearchBar
+            <TextField
+                    id="outlined-basic"
+                    label="Search Job"
+                    variant="outlined"
                     style={{ margin: '10px 10px' }}
-                    onChange={handleTextChange}
-                    onCancelSearch={() => console.log('Canceled search')}
+                    onChange={(e) => {
+                        handleTextChange(e.target.value);
+                    }}
                 />
                 <TableContainer>
                     <Table aria-label="simple table">

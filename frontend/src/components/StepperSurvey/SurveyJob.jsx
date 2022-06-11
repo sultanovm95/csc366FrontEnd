@@ -8,6 +8,7 @@ import 'survey-core/defaultV2.css';
 import { quiz } from './surveyJobJSON';
 
 import axios from 'axios';
+import { getHeader } from '../../utils';
 
 StylesManager.applyTheme('defaultV2');
 
@@ -15,6 +16,7 @@ export const SurveyJobComponent = () => {
     let navigate = useNavigate();
 
     const survey = new Model(quiz);
+    //var survey = new Model(axios.get("http://localhost:5000/survey?sid=2", getHeader()));
     survey.showProgressBar = 'bottom';
     survey.showNavigationButtons = true;
     survey.goNextPageAutomatic = true;

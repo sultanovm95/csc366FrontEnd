@@ -36,7 +36,6 @@ export function CreateProfiles() {
         // );
 
         // return response.data.criteria;
-
         return criterias.criteria;
     }
 
@@ -73,9 +72,8 @@ export function CreateProfiles() {
             Criteria: criteria_bindings
         });
         try {
-            //what is AId; Need to find AID from login?
             axios.post(
-            "http://localhost:5000/profile?aid=0",
+            "http://localhost:5000/profile?aid=" + localStorage.getItem('AId'),
             {PName: PName, PType: 'Desired', Criteria: criteria_bindings}
           );
       } catch (err) {

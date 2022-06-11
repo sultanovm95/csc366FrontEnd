@@ -1,26 +1,38 @@
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Login, Signup, App, Account, Profiles, Posts } from '../pages';
-import { Jobs } from '../pages/Jobs';
+import { Jobs, JobsBackUp } from '../pages/Jobs';
 import { CreateProfiles } from '../pages/CreateProfiles';
 
+
+
 export const AppRouter = () => {
+    async function setAccountIdByEmail(email){
+        axios.get("http://localhost:5000/users/account?email=" + email).then(
+            result => {
+                console.log(email)
+                localStorage.setItem('AId', result.data)    
+                return result.data
+            })
+    }
+
     return (
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<App />}>
                     <Route index element={<Posts />} />
-                    <Route path="account" element={<Account />} />
-                    <Route path="profiles" element={<Profiles />} />
-                    <Route path="jobs" element={<Jobs />} />
+                    <Route path="account" element={<Account/>} />
+                    <Route path="profiles" element={<Profiles/>} />
+                    <Route path="jobs" element={<JobsBackUp/>} />
                     <Route
                         path="create_profiles"
                         element={<CreateProfiles />}
                     />
                 </Route>
-
                 <Route path="/auth">
-                    <Route path="login" element={<Login />} />
-                    <Route path="signup" element={<Signup />} />
+                    <Route path="login" element={<Login setAIdByEmail={setAccountIdByEmail}/>} />
+                    <Route path="signup" element={<Signup setAIdByEmail={setAccountIdByEmail} />} />
                 </Route>
             </Routes>
         </BrowserRouter>

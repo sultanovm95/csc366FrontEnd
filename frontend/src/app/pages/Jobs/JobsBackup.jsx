@@ -21,6 +21,7 @@ export function JobsBackUp(props) {
     const [num_pages, setNumPages] = useState();
 
     useEffect(() => {
+        console.log(localStorage.getItem('AId'))
         fetchAllJobsByType(current_jobDescription).then((result) => {
             if (result) {
                 setAllJobs(result);

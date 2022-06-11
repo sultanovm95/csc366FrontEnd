@@ -40,8 +40,8 @@ function Copyright(props) {
 
 const makeLoginCall = async (user) => {
     try {
+        // props.setAIdByEmail(user.email) //add AID to user
         const response = await axios.post(
-            //'http://127.0.0.1:4001/users/login',
             "http://localhost:5000/users/login",
             user
         );
@@ -53,7 +53,7 @@ const makeLoginCall = async (user) => {
 
 const theme = createTheme();
 
-export const Login = () => {
+export const Login = (props) => {
     const [error, setError] = useState('');
     const [role, setRole] = useState('Client');
 
@@ -82,16 +82,32 @@ export const Login = () => {
         }),
         onSubmit: (values) => {
             console.log(values);
-            makeLoginCall(values).then((response) => {
-                const status = response.status;
-                const token = response.data.token;
-                if (status === 200) {
-                    localStorage.setItem('token', JSON.stringify(token));
-                    window.location = '/';
-                } else {
-                    setError('Invalid email | Maybe taken');
-                }
-            });
+            // makeLoginCall(props, values).then((response) => {
+            //     const status = response.status;
+            //     const token = response.data.token;
+            //     if (status === 200) {
+            //         localStorage.setItem('token', JSON.stringify(token));
+            //         localStorage.setItem('email', values.email);
+            //         window.location = '/'
+            //     } else {
+            //         setError('Invalid email | Maybe taken');
+            //     }
+            // });
+            Promise.all([makeLoginCall(values), props.setAIdByEmail(values.email)]).then(([response, AId]) => 
+                     { 
+                        const status = response.status;
+                        const token = response.data.token;
+                        if (status === 200) {
+                            localStorage.setItem('token', JSON.stringify(token));
+                            localStorage.setItem('email', values.email);
+                            window.location = '/'
+                        } else {
+                            setError('Invalid email | Maybe taken');
+                        }
+
+                     }
+                     
+                     )
         }
     });
 

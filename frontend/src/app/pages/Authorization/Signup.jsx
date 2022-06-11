@@ -38,7 +38,6 @@ function Copyright(props) {
 const makeSignUpCall = async (user) => {
     try {
         const response = await axios.post(
-            //'http://127.0.0.1:4001/users/signup',
             'http://localhost:5000/users/signup',
             user
         );
@@ -99,8 +98,14 @@ export const Signup = () => {
                 const status = response.status;
                 const token = response.data.token;
                 if (status === 201) {
-                    localStorage.setItem('token', JSON.stringify(token));
-                    window.location = '/';
+                    axios.get('http://localhost:5000/users/account').then(result =>
+                        {
+                            if (result)
+                            {
+                                localStorage.setItem('AId', result.data)    
+                                window.location = '/'
+                            }                            
+                        })
                 } else {
                     setError('Invalid email | Maybe taken');
                 }

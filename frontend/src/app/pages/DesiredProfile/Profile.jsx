@@ -32,10 +32,10 @@ export function DesiredProfiles() {
         .then(res => {
             const results = res.data;
             // console.log(results)
-            if (results.PType == "Desired") {
+            // if (results.PType == "Desired") {
                 setCriteriaBindings(results.Criteria)
                 setPName(results.PName)
-            }
+            // }
         }).catch(err => {
             console.error(err)
         })

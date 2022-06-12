@@ -8,11 +8,6 @@ export function ImportanceSlider(props) {
         return `${value}`;
     }
 
-    var val = 4
-    if (props.value !== undefined) {
-        val = props.value
-    }
-
     return (
         <Slider
             style={{ width: '110px' }}
@@ -20,7 +15,6 @@ export function ImportanceSlider(props) {
             defaultValue={4}
             getAriaValueText={valuetext}
             valueLabelDisplay="auto"
-            value={val}
             step={1}
             marks
             min={0}
